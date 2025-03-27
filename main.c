@@ -1,5 +1,4 @@
 // Blackjack - Script by Khalil
-// gcc main.c -o main
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
