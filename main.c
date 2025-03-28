@@ -14,14 +14,14 @@ int DrawCard(Player player) {
     int card = (rand() % 11) + 1; // Always starts at 0 so add 1
     player.number += card;
 
-    printf("%s drew the number: %d", player.name, card);
-    printf("Their total is now: %s", player.number);
+    printf("%s drew the number: %d\n", player.name, card);
+    printf("Their total is now: %d", player.number);
 
     return player.number;
 }
 
 int main() {
-    srand(time(0));
+    srand(time(0)); // initalize rand() 
     char num_of_players[25];    
     bool valid_input = false;
 
@@ -72,27 +72,35 @@ int main() {
     {
         printf("\nHi %s, here is your First Draw!\n", Players[i].name);
         Players[i].number = DrawCard(Players[i]);
-        // breaks here, literally just stops after it draws the card for some reason
+        
+        bool lost = false;
+        while (true) {
+            // Not tested yet
+            if (Players[i].number > 21) {
+                printf("\n%s has lost!\n", Players[i].name);
+                lost = true;
+                break;
+            } else if (Players[i].number == 21) {
+                printf("\nLucky break! You got 21. Now it's the Dealer's turn to draw.");
+                break;
+            } 
+            // 
 
-        char answer;
+            char answer;
+            printf("\nWould you like to draw another card? Y/N: ");
+            scanf(" %c", &answer); // need the space before the %c or errors
 
-        printf("\nWould you like to draw another card? Y/N: ");
-        fgets(answer, sizeof(answer), stdin);
-
-        if (answer == "Y") 
-        {
-            printf("\n----------------------------------------\n");
-            Players[i].number = DrawCard(Players[i]);
-        } 
-        else if (answer == "N") 
-        {
-            printf("You have finished with the number: %s", Players[i].number);
-            printf("Now it's the Dealer's turn to draw");
-        } 
-        else 
-        {
-            printf("Give a correct input.");
-        } 
+            if (answer == 'Y'){
+                printf("\n----------------------------------------\n");
+                Players[i].number = DrawCard(Players[i]);
+            } else if (answer == 'N') {
+                printf("You have finished with the number: %d\n", Players[i].number);
+                printf("Now it's the Dealer's turn to draw");
+                break;
+            } else {
+                printf("Give a correct input.");
+            }
+        }
     }
 
     return 0;
