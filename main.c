@@ -4,6 +4,22 @@
 #include <stdbool.h>
 #include <string.h>
 #include <time.h>
+#include <ctype.h>
+
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
+
+// Making it more interactive
+void Sleeps(int num) {
+    #ifdef _WIN32
+        Sleep(num * 1000); // Windows: milliseconds
+    #else
+        sleep(num);    // Linux: seconds
+    #endif
+}
 
 typedef struct {
     char name[25];
@@ -79,9 +95,11 @@ int main() {
             if (Players[i].number > 21) {
                 printf("\n%s has lost!\n", Players[i].name);
                 lost = true;
+                Sleeps(2);
                 break;
             } else if (Players[i].number == 21) {
-                printf("\nLucky break! You got 21. Now it's the Dealer's turn to draw.");
+                printf("\nLucky break! You got 21. Now it's the Dealer's turn to draw.\n");
+                Sleeps(2);
                 break;
             } 
             // 
@@ -89,18 +107,21 @@ int main() {
             char answer;
             printf("\nWould you like to draw another card? Y/N: ");
             scanf(" %c", &answer); // need the space before the %c or errors
-
-            if (answer == 'Y'){
+            
+            if (toupper(answer) == 'Y'){
                 printf("\n----------------------------------------\n");
                 Players[i].number = DrawCard(Players[i]);
-            } else if (answer == 'N') {
+            } else if (toupper(answer) == 'N') {
                 printf("You have finished with the number: %d\n", Players[i].number);
-                printf("Now it's the Dealer's turn to draw");
+                printf("Now it's the Dealer's turn to draw\n");
+                Sleeps(2);
                 break;
             } else {
                 printf("Give a correct input.");
             }
         }
+
+        // dealer's code goes here
     }
 
     return 0;
