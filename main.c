@@ -26,14 +26,14 @@ typedef struct {
     int number;
 } Player;
 
-int DrawCard(Player player) {
+int DrawCard(Player *player) {
     int card = (rand() % 11) + 1; // Always starts at 0 so add 1
-    player.number += card;
+    player->number += card;
 
-    printf("%s drew the number: %d\n", player.name, card);
-    printf("Their total is now: %d", player.number);
+    printf("%s drew the number: %d\n", player->name, card);
+    printf("Their total is now: %d", player->number);
 
-    return player.number;
+    return player->number;
 }
 
 int main() {
@@ -87,7 +87,7 @@ int main() {
     for (int i = 1; i < num_players; i++ ) 
     {
         printf("\nHi %s, here is your First Draw!\n", Players[i].name);
-        Players[i].number = DrawCard(Players[i]);
+        Players[i].number = DrawCard(&Players[i]);
         
         bool lost = false;
         while (true) {
@@ -110,7 +110,7 @@ int main() {
             
             if (toupper(answer) == 'Y'){
                 printf("\n----------------------------------------\n");
-                Players[i].number = DrawCard(Players[i]);
+                Players[i].number = DrawCard(&Players[i]);
             } else if (toupper(answer) == 'N') {
                 printf("You have finished with the number: %d\n", Players[i].number);
                 printf("Now it's the Dealer's turn to draw\n");
