@@ -83,6 +83,8 @@ int main() {
         Players[i].number = 0;
     }
     
+    char Winners[10];
+    int winner_count = 0;
     // Starting the Game for each Player
     for (int i = 1; i < num_players; i++ ) 
     {
@@ -91,7 +93,6 @@ int main() {
         
         bool lost = false;
         while (true) {
-            // Not tested yet
             if (Players[i].number > 21) {
                 printf("\n%s has lost!\n", Players[i].name);
                 lost = true;
@@ -101,8 +102,7 @@ int main() {
                 printf("\nLucky break! You got 21. Now it's the Dealer's turn to draw.\n");
                 Sleeps(2);
                 break;
-            } 
-            // 
+            }
 
             char answer;
             printf("\nWould you like to draw another card? Y/N: ");
@@ -122,7 +122,36 @@ int main() {
         }
 
         // dealer's code goes here
+        Player Dealer = {"Dealer",0};
+        char win_buffer[256];
+        while (lost == false) {
+            printf("\n#########################################\n");
+            Dealer.number = DrawCard(&Dealer);
+            Sleeps(2);
+
+            if (Dealer.number > 21) {
+                printf("\nDealer has lost, %s has won the game!!", Players[i].name);
+                // this is bad, fix it later
+                snprintf(win_buffer, sizeof(win_buffer), "%s won with the Number: %d", Players[i].name, Players[i].number);
+                strcpy(&Winners[winner_count], win_buffer);
+                winner_count++;
+                break;
+            } else if (Dealer.number == 21) {
+                printf("\nThe Dealer has got 21!! %s has lost the game :_(", Players[i].name);
+                lost = true;
+            } else if (Dealer.number >= Players[i].number) {
+                printf("\n%s has lost. The Dealer has won the game :(", Players[i].name);
+                lost = true;
+            }
+
+        }
+        printf("\n%s had: %d", Players[i].name, Players[i].number);
+        printf("\nThe Dealer had: %d", Dealer.number);
+        printf("\n########################################");
+        Sleeps(3);
     }
+
+    // for winner in winners printf("you won")
 
     return 0;
 }
