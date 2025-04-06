@@ -83,7 +83,7 @@ int main() {
         Players[i].number = 0;
     }
     
-    char Winners[10];
+    char Winners[num_players];
     int winner_count = 0;
     // Starting the Game for each Player
     for (int i = 1; i < num_players; i++ ) 
@@ -151,8 +151,17 @@ int main() {
         Sleeps(3);
     }
 
-    // for winner in winners printf("you won")
-
+    // Showing the Winners
+    printf("\n\n########################################");
+    printf("\n\nThe game of Blackjack is now finished!\n\n");
+    printf("----------------------------------------");
+    for (int i = 0; i < sizeof(Winners)/sizeof(Winners[0]); i++) {
+        printf("\n%s", Winners[i]);
+    }
+    printf("----------------------------------------");
+    printf("\nThanks for playing!!");
+    printf("\n########################################");
+    
     return 0;
 }
 
