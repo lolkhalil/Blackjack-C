@@ -83,7 +83,7 @@ int main() {
         Players[i].number = 0;
     }
     
-    char Winners[num_players];
+    char Winners[num_players][60];
     int winner_count = 0;
     // Starting the Game for each Player
     for (int i = 1; i < num_players; i++ ) 
@@ -133,7 +133,7 @@ int main() {
                 printf("\nDealer has lost, %s has won the game!!", Players[i].name);
                 // this is bad, fix it later
                 snprintf(win_buffer, sizeof(win_buffer), "%s won with the Number: %d", Players[i].name, Players[i].number);
-                strcpy(&Winners[winner_count], win_buffer);
+                strcpy(Winners[winner_count], win_buffer);
                 winner_count++;
                 break;
             } else if (Dealer.number == 21) {
